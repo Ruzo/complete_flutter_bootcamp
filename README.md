@@ -1,1 +1,1 @@
-# complete_flutter_bootcamp
+# The App Brewery - The Complete Flutter Development Bootcamp Using Dart
