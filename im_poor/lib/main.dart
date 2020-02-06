@@ -12,32 +12,39 @@ class Iam extends StatefulWidget {
 
 class _Iam extends State<Iam> with TickerProviderStateMixin {
   GifController controller;
-  AssetImage diamond;
+  AssetImage _diamond;
   GifImage aniDiamond;
+  int tapCount = 0;
+  final List<String> messages = [
+    "Poor",
+    "Working very hard!",
+    "Fighting corruption!",
+    "RICH!"
+  ];
+  String _message;
 
   @override
   void initState() {
     super.initState();
     controller = GifController(
       vsync: this,
-      value: 62,
       duration: Duration(milliseconds: 1000),
       reverseDuration: Duration(milliseconds: 1000),
     );
-    diamond = AssetImage('images/animated_diamond.gif');
+    _diamond = AssetImage('images/animated_diamond.gif');
     aniDiamond = GifImage(
       controller: controller,
-      image: diamond,
+      image: _diamond,
     );
-    controller.repeat(
-        min: 64, max: 69, reverse: true, period: Duration(milliseconds: 1000));
+    _message = messages[0];
+    startLoop();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    precacheImage(diamond, context);
+    precacheImage(_diamond, context);
   }
 
   @override
@@ -49,10 +56,64 @@ class _Iam extends State<Iam> with TickerProviderStateMixin {
       ),
       body: Container(
         color: Color.fromRGBO(2, 25, 43, 1),
-        child: Center(
-          child: aniDiamond,
+        child: Column(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(top: 40)),
+            Text(
+              _message,
+              style: TextStyle(color: Colors.white, fontSize: 44),
+            ),
+            Padding(padding: EdgeInsets.only(top: 40)),
+            GestureDetector(
+              onTap: () => tapAction(),
+              child: Center(
+                child: aniDiamond,
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  void tapAction() {
+    switch (tapCount) {
+      case 0:
+      case 1:
+        tapCount++;
+        setState(() => _message = messages[tapCount]);
+        openPartially();
+        break;
+      case 2:
+        tapCount++;
+        setState(() => _message = messages[tapCount]);
+        openCompletely();
+        break;
+      default:
+        break;
+    }
+  }
+
+  void startLoop() => controller.repeat(
+        min: 64,
+        max: 69,
+        reverse: true,
+        period: Duration(milliseconds: 1000),
+      );
+
+  void openPartially() => controller
+      .animateTo(
+        78,
+      )
+      .then((_) => controller
+          .animateBack(
+            64,
+          )
+          .then((_) => startLoop()));
+
+  void openCompletely() {
+    controller.value = 27;
+    controller.animateTo(44).then((_) => controller.repeat(
+        min: 38, max: 44, reverse: true, period: Duration(milliseconds: 500)));
   }
 }
