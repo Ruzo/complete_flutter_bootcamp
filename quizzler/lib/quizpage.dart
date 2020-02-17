@@ -6,6 +6,17 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Widget> scoreKeeper = [];
+
+  Icon _winIcon = Icon(Icons.check, color: Colors.green);
+  Icon _lostIcon = Icon(Icons.close, color: Colors.red);
+
+  @override
+  void initState() {
+    scoreKeeper.addAll([_winIcon, _winIcon, _winIcon, _lostIcon, _lostIcon]);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,7 +76,11 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Expanded(
+          child: Row(
+            children: scoreKeeper,
+          ),
+        )
       ],
     );
   }
