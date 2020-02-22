@@ -13,8 +13,8 @@ class _QuizPageState extends State<QuizPage> {
   int currentQuestion = 0;
   bool endOfGame = false;
 
-  Icon _winIcon = Icon(Icons.check, color: Colors.green, key: Key('right'));
-  Icon _lostIcon = Icon(Icons.close, color: Colors.red, key: Key('wrong'));
+  Icon _winIcon = Icon(Icons.check, color: Colors.green);
+  Icon _lostIcon = Icon(Icons.close, color: Colors.red);
 
   @override
   void initState() {
@@ -25,60 +25,65 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Expanded(
-          flex: 5,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Center(
-              child: endOfGame
-                  ? endMessage()
-                  : questions.question[currentQuestion].item1,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+    return Stack(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Center(
+                  child: endOfGame
+                      ? Text('')
+                      : questions.question[currentQuestion].item1,
                 ),
               ),
-              onPressed: endOfGame ? null : () => answered(true),
             ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              color: Colors.red,
-              child: Text(
-                'False',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: FlatButton(
+                  textColor: Colors.white,
+                  color: Colors.green,
+                  child: Text(
+                    'True',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  onPressed: () => answered(true),
                 ),
               ),
-              onPressed: endOfGame ? null : () => answered(false),
             ),
-          ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: FlatButton(
+                  color: Colors.red,
+                  child: Text(
+                    'False',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () => answered(false),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: scoreKeeper,
+              ),
+            )
+          ],
         ),
-        Expanded(
-          child: Row(
-            children: scoreKeeper,
-          ),
-        )
-      ],
+        endOfGame ? endMessage() : null,
+      ].where((element) => element != null).toList(),
     );
   }
 
@@ -92,24 +97,72 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Widget endMessage() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'GAME OVER!\n',
-          style: TextStyle(
-            fontSize: 25.0,
-            color: Colors.white,
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return Center(
+        child: Container(
+          color: Colors.white,
+          width: double.maxFinite,
+          height: constraints.maxHeight * .84,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    text: 'GAME OVER!\n\n',
+                    style: TextStyle(
+                        fontSize: 40.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                    children: [
+                      TextSpan(
+                        text:
+                            'Right: ${scoreKeeper.where((s) => s == _winIcon).length}  ',
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          color: Colors.green,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            'Wrong: ${scoreKeeper.where((s) => s == _lostIcon).length}',
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ]),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 50),
+                child: FlatButton(
+                  textColor: Colors.blueGrey,
+                  color: Colors.blue,
+                  child: Text(
+                    'Play Again',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  onPressed: () => resetGame(),
+                ),
+              ),
+            ],
           ),
-          children: [
-            TextSpan(
-              text:
-                  'Right: ${scoreKeeper.where((s) => s == _winIcon).length}  ',
-            ),
-            TextSpan(
-              text: 'Wrong: ${scoreKeeper.where((s) => s == _lostIcon).length}',
-            ),
-          ]),
-    );
+        ),
+      );
+    });
+  }
+
+  void resetGame() {
+    setState(() {
+      currentQuestion = 0;
+      endOfGame = false;
+      scoreKeeper.clear();
+    });
   }
 }
 
