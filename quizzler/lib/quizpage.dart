@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/questions.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -7,13 +8,18 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
+  Questions questions;
+  int questionsTotal;
+  int currentQuestion = 0;
+  bool endOfGame = false;
 
-  Icon _winIcon = Icon(Icons.check, color: Colors.green);
-  Icon _lostIcon = Icon(Icons.close, color: Colors.red);
+  Icon _winIcon = Icon(Icons.check, color: Colors.green, key: Key('right'));
+  Icon _lostIcon = Icon(Icons.close, color: Colors.red, key: Key('wrong'));
 
   @override
   void initState() {
-    scoreKeeper.addAll([_winIcon, _winIcon, _winIcon, _lostIcon, _lostIcon]);
+    questions = Questions();
+    questionsTotal = questions.question.length - 1;
     super.initState();
   }
 
@@ -28,14 +34,9 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(
-                'This is where the question text will go.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ),
-              ),
+              child: endOfGame
+                  ? endMessage()
+                  : questions.question[currentQuestion].item1,
             ),
           ),
         ),
@@ -52,9 +53,7 @@ class _QuizPageState extends State<QuizPage> {
                   fontSize: 20.0,
                 ),
               ),
-              onPressed: () {
-                //The user picked true.
-              },
+              onPressed: endOfGame ? null : () => answered(true),
             ),
           ),
         ),
@@ -70,9 +69,7 @@ class _QuizPageState extends State<QuizPage> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () {
-                //The user picked false.
-              },
+              onPressed: endOfGame ? null : () => answered(false),
             ),
           ),
         ),
@@ -82,6 +79,36 @@ class _QuizPageState extends State<QuizPage> {
           ),
         )
       ],
+    );
+  }
+
+  void answered(bool answer) {
+    setState(() {
+      answer == questions.question[currentQuestion].item2
+          ? scoreKeeper.add(_winIcon)
+          : scoreKeeper.add(_lostIcon);
+      currentQuestion < questionsTotal ? currentQuestion++ : endOfGame = true;
+    });
+  }
+
+  Widget endMessage() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'GAME OVER!\n',
+          style: TextStyle(
+            fontSize: 25.0,
+            color: Colors.white,
+          ),
+          children: [
+            TextSpan(
+              text:
+                  'Right: ${scoreKeeper.where((s) => s == _winIcon).length}  ',
+            ),
+            TextSpan(
+              text: 'Wrong: ${scoreKeeper.where((s) => s == _lostIcon).length}',
+            ),
+          ]),
     );
   }
 }
