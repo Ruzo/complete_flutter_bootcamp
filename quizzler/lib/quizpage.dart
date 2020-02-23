@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler/questions.dart';
+import 'package:quizzler/quizcont.dart';
+import 'package:quizzler/endmessage.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -8,20 +9,10 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
-  Questions questions;
-  int questionsTotal;
-  int currentQuestion = 0;
-  bool endOfGame = false;
+  Quiz quiz = Quiz();
 
   Icon _winIcon = Icon(Icons.check, color: Colors.green);
   Icon _lostIcon = Icon(Icons.close, color: Colors.red);
-
-  @override
-  void initState() {
-    questions = Questions();
-    questionsTotal = questions.question.length - 1;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +27,14 @@ class _QuizPageState extends State<QuizPage> {
               child: Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Center(
-                  child: endOfGame
-                      ? Text('')
-                      : questions.question[currentQuestion].item1,
+                  child: Text(
+                    quiz.endOfGame ? Text('') : quiz.getQuestion(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -82,85 +78,29 @@ class _QuizPageState extends State<QuizPage> {
             )
           ],
         ),
-        endOfGame ? endMessage() : null,
+        quiz.endOfGame ? endOfGameModal() : null,
       ].where((element) => element != null).toList(),
     );
   }
 
   void answered(bool answer) {
     setState(() {
-      answer == questions.question[currentQuestion].item2
+      quiz.rightAnswer(answer)
           ? scoreKeeper.add(_winIcon)
           : scoreKeeper.add(_lostIcon);
-      currentQuestion < questionsTotal ? currentQuestion++ : endOfGame = true;
     });
   }
 
-  Widget endMessage() {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return Center(
-        child: Container(
-          color: Colors.white,
-          width: double.maxFinite,
-          height: constraints.maxHeight * .84,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: 'GAME OVER!\n\n',
-                    style: TextStyle(
-                        fontSize: 40.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                        text:
-                            'Right: ${scoreKeeper.where((s) => s == _winIcon).length}  ',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          color: Colors.green,
-                        ),
-                      ),
-                      TextSpan(
-                        text:
-                            'Wrong: ${scoreKeeper.where((s) => s == _lostIcon).length}',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ]),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 50),
-                child: FlatButton(
-                  textColor: Colors.blueGrey,
-                  color: Colors.blue,
-                  child: Text(
-                    'Play Again',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                  onPressed: () => resetGame(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
+  Widget endOfGameModal() {
+    int rightAnswers = scoreKeeper.where((s) => s == _winIcon).length;
+    int wrongAnswers = scoreKeeper.where((s) => s == _lostIcon).length;
+    EndMessage endMessage = EndMessage(rightAnswers, wrongAnswers, resetGame);
+    return endMessage;
   }
 
   void resetGame() {
     setState(() {
-      currentQuestion = 0;
-      endOfGame = false;
+      quiz.reset();
       scoreKeeper.clear();
     });
   }

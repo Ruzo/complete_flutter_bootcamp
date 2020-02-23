@@ -1,8 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
+import 'package:quizzler/question.dart';
 
-class Questions {
-  final List question = [
+class Quiz {
+  int questionsTotal;
+  int _currentQuestion = 0;
+  bool _endOfGame = false;
+  Question _question;
+
+  Quiz() {
+    this.questionsTotal = _questions.length - 1;
+  }
+
+  final List _questions = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
     Question('Approximately one quarter of human bones are in the feet.', true),
@@ -30,16 +38,23 @@ class Questions {
         true),
   ];
 
-  static Tuple2<Widget, bool> Question(String question, bool answer) {
-    return Tuple2<Widget, bool>(
-        Text(
-          question,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25.0,
-            color: Colors.white,
-          ),
-        ),
-        answer);
+  String getQuestion() {
+    if (_currentQuestion < questionsTotal) {
+      _question = _questions[_currentQuestion];
+      _currentQuestion++;
+      return _question.question;
+    } else {
+      _endOfGame = true;
+    }
+    return '';
+  }
+
+  bool get endOfGame => _endOfGame;
+
+  bool rightAnswer(bool choice) => _question.answer == choice;
+
+  void reset() {
+    _currentQuestion = 0;
+    _endOfGame = false;
   }
 }
