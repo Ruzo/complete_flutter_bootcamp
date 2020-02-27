@@ -1,4 +1,11 @@
+import 'package:bmi_calc/constants.dart';
+import 'package:bmi_calc/data_input_card.dart';
+import 'package:bmi_calc/gender_card.dart';
+import 'package:bmi_calc/input_container.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+enum Gender { male, female }
 
 class InputView extends StatefulWidget {
   @override
@@ -6,6 +13,12 @@ class InputView extends StatefulWidget {
 }
 
 class _InputViewState extends State<InputView> {
+  int weight = 205;
+  int age = 49;
+  double height = 5.0;
+
+  Gender gender;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,32 +28,67 @@ class _InputViewState extends State<InputView> {
           child: Row(
             children: [
               Expanded(
-                child: Container(
-                  margin: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Color(0xFF607D8B),
+                child: InputContainer(
+                  child: GenderCard(
+                    icon: FontAwesomeIcons.mars,
+                    gender: Gender.male.index,
+                    genderLabel: 'MALE',
+                    handleTap: selectGender,
                   ),
+                  selected: gender == Gender.male,
                 ),
               ),
               Expanded(
-                child: Container(
-                  margin: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Color(0xFF607D8B),
+                child: InputContainer(
+                  child: GenderCard(
+                    icon: FontAwesomeIcons.venus,
+                    gender: Gender.female.index,
+                    genderLabel: 'FEMALE',
+                    handleTap: selectGender,
                   ),
+                  selected: gender == Gender.female,
                 ),
               ),
             ],
           ),
         ),
         Expanded(
-          child: Container(
-            margin: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              color: Color(0xFF607D8B),
+          child: InputContainer(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'HEIGHT',
+                  style: kLabelStyle,
+                  textAlign: TextAlign.center,
+                ),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '$height',
+                        style: kDataStyle,
+                      ),
+                      TextSpan(
+                        text: 'ft',
+                        style: kLabelStyle,
+                      )
+                    ],
+                  ),
+                ),
+                Slider(
+                  min: 0.0,
+                  max: 10.0,
+                  activeColor: kSliderActiveColor,
+                  inactiveColor: kSliderInactiveColor,
+                  value: height,
+                  onChanged: (double h) => setState(
+                    () => height = double.parse(h.toStringAsFixed(1)),
+                  ),
+                )
+              ],
             ),
           ),
         ),
@@ -48,20 +96,18 @@ class _InputViewState extends State<InputView> {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: Container(
-                  margin: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Color(0xFF607D8B),
+                child: InputContainer(
+                  child: DataInputCard(
+                    label: 'WEIGHT',
+                    data: weight,
                   ),
                 ),
               ),
               Expanded(
-                child: Container(
-                  margin: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Color(0xFF607D8B),
+                child: InputContainer(
+                  child: DataInputCard(
+                    label: 'AGE',
+                    data: age,
                   ),
                 ),
               ),
@@ -71,8 +117,9 @@ class _InputViewState extends State<InputView> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: FlatButton(
-            color: Color(0xFF607D8B),
-            onPressed: () => {},
+            color: kButtonColor,
+            disabledColor: kCardColor,
+            onPressed: gender == null ? null : () => {},
             child: Container(
               alignment: Alignment.center,
               width: double.maxFinite,
@@ -83,5 +130,11 @@ class _InputViewState extends State<InputView> {
         ),
       ],
     );
+  }
+
+  void selectGender(int selectedGender) {
+    setState(() {
+      gender = Gender.values[selectedGender];
+    });
   }
 }
