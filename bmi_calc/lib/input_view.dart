@@ -13,8 +13,8 @@ class InputView extends StatefulWidget {
 }
 
 class _InputViewState extends State<InputView> {
-  int weight = 205;
-  int age = 49;
+  int weight = 140;
+  int age = 21;
   double height = 5.0;
 
   Gender gender;
@@ -78,14 +78,26 @@ class _InputViewState extends State<InputView> {
                     ],
                   ),
                 ),
-                Slider(
-                  min: 0.0,
-                  max: 10.0,
-                  activeColor: kSliderActiveColor,
-                  inactiveColor: kSliderInactiveColor,
-                  value: height,
-                  onChanged: (double h) => setState(
-                    () => height = double.parse(h.toStringAsFixed(1)),
+                SliderTheme(
+                  data: SliderThemeData(
+                    activeTrackColor: kSliderActiveColor,
+                    inactiveTrackColor: kSliderInactiveColor,
+                    thumbColor: kButtonColor,
+                    thumbShape: RoundSliderThumbShape(
+                      enabledThumbRadius: 14.0,
+                    ),
+                    overlayColor: kButtonColor.withAlpha(0x1f),
+                    overlayShape: RoundSliderOverlayShape(
+                      overlayRadius: 30.0,
+                    ),
+                  ),
+                  child: Slider(
+                    min: 0.0,
+                    max: 10.0,
+                    value: height,
+                    onChanged: (double h) => setState(
+                      () => height = double.parse(h.toStringAsFixed(1)),
+                    ),
                   ),
                 )
               ],
@@ -100,6 +112,8 @@ class _InputViewState extends State<InputView> {
                   child: DataInputCard(
                     label: 'WEIGHT',
                     data: weight,
+                    handlePress: (int oper) =>
+                        setState(() => weight = bounds(weight + oper, 1, 1500)),
                   ),
                 ),
               ),
@@ -108,6 +122,8 @@ class _InputViewState extends State<InputView> {
                   child: DataInputCard(
                     label: 'AGE',
                     data: age,
+                    handlePress: (int oper) =>
+                        setState(() => age = bounds(age + oper, 1, 200)),
                   ),
                 ),
               ),
@@ -116,16 +132,14 @@ class _InputViewState extends State<InputView> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: FlatButton(
-            color: kButtonColor,
-            disabledColor: kCardColor,
+          child: RawMaterialButton(
+            fillColor: gender == null ? kCardColor : kButtonColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            constraints:
+                BoxConstraints.expand(width: double.maxFinite, height: 50.0),
             onPressed: gender == null ? null : () => {},
-            child: Container(
-              alignment: Alignment.center,
-              width: double.maxFinite,
-              height: 50.0,
-              child: Text('CALCULATE'),
-            ),
+            child: Text('CALCULATE'),
           ),
         ),
       ],
@@ -136,5 +150,9 @@ class _InputViewState extends State<InputView> {
     setState(() {
       gender = Gender.values[selectedGender];
     });
+  }
+
+  int bounds(int count, int low, int high) {
+    return count < low ? low : count > high ? high : count;
   }
 }

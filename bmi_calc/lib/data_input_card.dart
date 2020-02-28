@@ -1,12 +1,14 @@
 import 'package:bmi_calc/constants.dart';
+import 'package:bmi_calc/round_button.dart';
 import 'package:flutter/material.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DataInputCard extends StatelessWidget {
   final String label;
   final int data;
+  final Function handlePress;
 
-  DataInputCard({this.label = '', this.data});
+  DataInputCard({this.label = '', this.data, this.handlePress});
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +24,16 @@ class DataInputCard extends StatelessWidget {
           style: kDataStyle,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            // MaterialButton(
-            //   child: FaIcon(FontAwesomeIcons.minus),
-            //   onPressed: () => {},
-            // ),
-            // MaterialButton(
-            //   child: FaIcon(FontAwesomeIcons.plus),
-            //   onPressed: () => {},
-            // ),
+            RoundButton(
+              icon: FaIcon(FontAwesomeIcons.minus),
+              handlePress: (int steps) => handlePress(-steps),
+            ),
+            RoundButton(
+              icon: FaIcon(FontAwesomeIcons.plus),
+              handlePress: (int steps) => handlePress(steps),
+            ),
           ],
         )
       ],

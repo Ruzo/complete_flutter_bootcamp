@@ -6,6 +6,7 @@ const kSelectedCardColor = Color(0xFF75AA75);
 const kSliderActiveColor = Color(0xFFCFD8DC);
 const kSliderInactiveColor = Color(0xFF455A64);
 const kButtonColor = Color(0xFF75AA75);
+const kButtonOverlayColor = Color(0x1f75AA75);
 
 //Text styles
 const kLabelStyle = TextStyle(fontSize: 12);
