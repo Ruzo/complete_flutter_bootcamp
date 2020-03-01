@@ -1,11 +1,14 @@
-import 'package:bmi_calc/constants.dart';
-import 'package:bmi_calc/data_input_card.dart';
-import 'package:bmi_calc/gender_card.dart';
-import 'package:bmi_calc/input_container.dart';
+import 'package:bmi_calc/utils/bmi_calc.dart';
+import 'package:bmi_calc/widgets/bottom_button.dart';
+import 'package:bmi_calc/utils/constants.dart';
+import 'package:bmi_calc/widgets/data_input_card.dart';
+import 'package:bmi_calc/widgets/gender_card.dart';
+import 'package:bmi_calc/widgets/input_container.dart';
+import 'package:bmi_calc/screens/results.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-enum Gender { male, female }
+// enum Gender { male, female }
 
 class InputView extends StatefulWidget {
   @override
@@ -130,20 +133,24 @@ class _InputViewState extends State<InputView> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: RawMaterialButton(
-            fillColor: gender == null ? kCardColor : kButtonColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            constraints:
-                BoxConstraints.expand(width: double.maxFinite, height: 50.0),
-            onPressed: gender == null ? null : () => {},
-            child: Text('CALCULATE'),
-          ),
+        BottomButton(
+          label: 'CALCULATE',
+          enabled: gender != null,
+          height: 50.0,
+          handlePress: showResults,
         ),
       ],
     );
+  }
+
+  void showResults() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Results(
+            bmi: BMI(height: height, weight: weight),
+          ),
+        ));
   }
 
   void selectGender(int selectedGender) {

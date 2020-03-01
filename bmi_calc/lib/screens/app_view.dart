@@ -1,4 +1,4 @@
-import 'package:bmi_calc/input_view.dart';
+import 'package:bmi_calc/screens/input_view.dart';
 import 'package:flutter/material.dart';
 
 class AppView extends StatelessWidget {

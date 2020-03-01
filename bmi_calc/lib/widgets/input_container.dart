@@ -1,4 +1,4 @@
-import 'package:bmi_calc/constants.dart';
+import 'package:bmi_calc/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class InputContainer extends StatelessWidget {

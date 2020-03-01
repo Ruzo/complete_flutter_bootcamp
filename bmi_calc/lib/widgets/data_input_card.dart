@@ -1,5 +1,5 @@
-import 'package:bmi_calc/constants.dart';
-import 'package:bmi_calc/round_button.dart';
+import 'package:bmi_calc/utils/constants.dart';
+import 'package:bmi_calc/widgets/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

@@ -1,4 +1,4 @@
-import 'package:bmi_calc/app_view.dart';
+import 'package:bmi_calc/screens/app_view.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
           color: Color(0xff354A54),
         ),
       ),
-      home: AppView(),
+      routes: {'/': (context) => AppView()},
     );
   }
 }
