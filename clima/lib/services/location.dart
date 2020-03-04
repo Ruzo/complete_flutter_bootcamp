@@ -5,8 +5,10 @@ class Location {
   PermissionStatus _permission = PermissionStatus.unknown;
   ServiceStatus _serviceStatus = ServiceStatus.unknown;
   Position _position;
+  double _latitude;
+  double _longitude;
 
-  Future<Position> getPosition() async {
+  Future getPosition() async {
     if (_serviceStatus != ServiceStatus.enabled) await getServiceStatus();
     if (_serviceStatus == ServiceStatus.enabled) {
       if (_permission != PermissionStatus.granted) await getPermission();
@@ -14,7 +16,8 @@ class Location {
         print('Getting position');
         _position = await Geolocator()
             .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-        return _position;
+        _latitude = _position.latitude;
+        _longitude = _position.longitude;
       } else {
         return throw ('Location permission is not granted!');
       }
@@ -36,4 +39,22 @@ class Location {
   }
 
   Position get position => _position;
+
+  Future<int> get latitude async {
+    if (_latitude != null)
+      return _latitude.toInt();
+    else {
+      await getPosition();
+      return _latitude.toInt();
+    }
+  }
+
+  Future<int> get longitude async {
+    if (_longitude != null)
+      return _longitude.toInt();
+    else {
+      await getPosition();
+      return _longitude.toInt();
+    }
+  }
 }
