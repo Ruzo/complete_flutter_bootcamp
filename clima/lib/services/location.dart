@@ -18,6 +18,7 @@ class Location {
             .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
         _latitude = _position.latitude;
         _longitude = _position.longitude;
+        print('$_latitude, $_longitude');
       } else {
         return throw ('Location permission is not granted!');
       }
@@ -40,21 +41,21 @@ class Location {
 
   Position get position => _position;
 
-  Future<int> get latitude async {
+  Future<double> get latitude async {
     if (_latitude != null)
-      return _latitude.toInt();
+      return _latitude;
     else {
       await getPosition();
-      return _latitude.toInt();
+      return _latitude;
     }
   }
 
-  Future<int> get longitude async {
+  Future<double> get longitude async {
     if (_longitude != null)
-      return _longitude.toInt();
+      return _longitude;
     else {
       await getPosition();
-      return _longitude.toInt();
+      return _longitude;
     }
   }
 }
