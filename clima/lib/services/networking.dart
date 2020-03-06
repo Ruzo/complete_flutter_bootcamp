@@ -1,9 +1,10 @@
 import 'package:http/http.dart';
 import 'dart:convert';
+import "package:clima/keys.env";
 
 class API {
   String url = 'http://api.openweathermap.org/data/2.5/weather?';
-  String queryKey = '&appid=f65239a710645714ac909bb246490d71';
+  String queryKey = '&appid=$WEATHERKEY';
 
   Future<Map<String, dynamic>> getWeatherData(int lat, int lon) async {
     Response response;
