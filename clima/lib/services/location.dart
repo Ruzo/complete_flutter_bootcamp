@@ -7,23 +7,33 @@ class Location {
   Position _position;
   double _latitude;
   double _longitude;
+  String errorMessage;
 
-  Future getPosition() async {
-    if (_serviceStatus != ServiceStatus.enabled) await getServiceStatus();
-    if (_serviceStatus == ServiceStatus.enabled) {
-      if (_permission != PermissionStatus.granted) await getPermission();
-      if (_permission == PermissionStatus.granted) {
-        print('Getting position');
-        _position = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-        _latitude = _position.latitude;
-        _longitude = _position.longitude;
-        print('$_latitude, $_longitude');
+  Future<String> getPosition() async {
+    errorMessage = null;
+    try {
+      await getServiceStatus();
+      if (_serviceStatus == ServiceStatus.enabled) {
+        if (_permission != PermissionStatus.granted) await getPermission();
+        if (_permission == PermissionStatus.granted) {
+          print('Getting position');
+          _position = await Geolocator()
+              .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+          print('Got position: $_position');
+          _latitude = _position.latitude;
+          _longitude = _position.longitude;
+          print('$_latitude, $_longitude');
+          return null;
+        } else {
+          throw ('Location permission is not granted!');
+        }
       } else {
-        return throw ('Location permission is not granted!');
+        throw ('Location service is not enabled!');
       }
-    } else {
-      return throw ('Location service is not enabled!');
+    } catch (e) {
+      print(e);
+      errorMessage = e;
+      return e;
     }
   }
 
@@ -41,21 +51,7 @@ class Location {
 
   Position get position => _position;
 
-  Future<double> get latitude async {
-    if (_latitude != null)
-      return _latitude;
-    else {
-      await getPosition();
-      return _latitude;
-    }
-  }
+  double get latitude => _latitude;
 
-  Future<double> get longitude async {
-    if (_longitude != null)
-      return _longitude;
-    else {
-      await getPosition();
-      return _longitude;
-    }
-  }
+  double get longitude => _longitude;
 }

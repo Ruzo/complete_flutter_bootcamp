@@ -30,15 +30,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void pushToLocationScreen() async {
-    double latitude = await location.latitude;
-    double longitude = await location.longitude;
+    String error = await location.getPosition();
+
     WeatherModel weatherModel = WeatherModel(
-      lat: latitude,
-      lon: longitude,
+      lat: error == null ? location.latitude : 0,
+      lon: error == null ? location.longitude : 0,
+      err: error,
     );
     await weatherModel.getLocationWeatherData();
 
-    Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => LocationScreen(
@@ -46,5 +47,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         ),
       ),
     );
+
+    pushToLocationScreen();
   }
 }
