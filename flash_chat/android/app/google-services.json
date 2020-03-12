@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "127654705466",
+    "firebase_url": "https://flashchat-b251b.firebaseio.com",
+    "project_id": "flashchat-b251b",
+    "storage_bucket": "flashchat-b251b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127654705466:android:d7e677e1b48f628d463803",
+        "android_client_info": {
+          "package_name": "com.evigy.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127654705466-3meigm364ph7n7ln6q8n60o3notdi3ks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARU0ufAWuHBdWWXrOcrvYK8rENfhT3PRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127654705466-3meigm364ph7n7ln6q8n60o3notdi3ks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
