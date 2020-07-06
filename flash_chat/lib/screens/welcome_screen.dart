@@ -66,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   totalRepeatCount: 1,
                   text: ['Flash Chat'],
                   textStyle: TextStyle(
-                    fontSize: 45.0,
+                    fontSize: 42.0,
                     fontWeight: FontWeight.w900,
                   ),
                 ),

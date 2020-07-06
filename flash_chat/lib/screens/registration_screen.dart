@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/widgets/main_button.dart';
 import 'package:flash_chat/widgets/styled_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flash_chat/utils/api.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const id = 'RegistrationScreen';
@@ -10,6 +12,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  String email;
+  String password;
+  API api = API();
+  FirebaseUser user;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,18 +27,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Hero(
-              tag: 'logo',
-              child: Container(
-                height: 200.0,
-                child: Image.asset('images/logo.png'),
+            Flexible(
+              child: Hero(
+                tag: 'logo',
+                child: Container(
+                  height: 200.0,
+                  child: Image.asset('images/logo.png'),
+                ),
               ),
             ),
             SizedBox(
               height: 48.0,
             ),
             StyledTextField(
-              handleOnChanged: (text) {},
+              keyboardType: TextInputType.emailAddress,
+              handleOnChanged: (text) {
+                setState(() {
+                  email = text;
+                });
+              },
               hintText: 'Enter your email',
               color: Colors.blueAccent,
             ),
@@ -39,7 +53,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8.0,
             ),
             StyledTextField(
-              handleOnChanged: (text) {},
+              hideText: true,
+              handleOnChanged: (text) {
+                setState(() {
+                  password = text;
+                });
+              },
               hintText: 'Enter your password',
               color: Colors.blueAccent,
             ),
@@ -49,7 +68,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             MainButton(
               color: Colors.blueAccent,
               text: 'Register',
-              handlePressed: () {},
+              handlePressed: () async {
+                print('$email - $password');
+                FirebaseUser newUser =
+                    await api.registerUserByEmail(email, password);
+                setState(() {
+                  user = newUser;
+                });
+                print(user);
+              },
             ),
           ],
         ),

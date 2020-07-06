@@ -4,13 +4,23 @@ class StyledTextField extends StatelessWidget {
   final Function handleOnChanged;
   final String hintText;
   final Color color;
+  final TextInputType keyboardType;
+  final bool hideText;
 
-  StyledTextField({this.handleOnChanged, this.hintText, this.color});
+  StyledTextField({
+    @required this.handleOnChanged,
+    this.hintText = '',
+    @required this.color,
+    this.keyboardType = TextInputType.text,
+    this.hideText = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (value) => handleOnChanged,
+      onChanged: (value) => handleOnChanged(value),
+      keyboardType: keyboardType,
+      obscureText: hideText,
       decoration: InputDecoration(
         hintText: hintText,
         contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
