@@ -14,6 +14,8 @@ class EmailAddress extends ValueObject<String> {
   const EmailAddress._(
     this.value,
   );
+
+  bool get isValid => value.isRight();
 }
 
 class Password extends ValueObject<String> {
@@ -25,4 +27,6 @@ class Password extends ValueObject<String> {
   }
 
   const Password._(this.value);
+
+  bool get isValid => value.isRight();
 }
