@@ -15,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -23,13 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
             Flexible(
               child: Hero(
                 tag: 'logo',
-                child: Container(
+                child: SizedBox(
                   height: 200.0,
                   child: Image.asset('images/logo.png'),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 48.0,
             ),
             StyledTextField(
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: 'Enter your email',
               color: Colors.lightBlueAccent,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             StyledTextField(
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: 'Enter your password',
               color: Colors.lightBlueAccent,
             ),
-            SizedBox(
+            const SizedBox(
               height: 24.0,
             ),
             MainButton(

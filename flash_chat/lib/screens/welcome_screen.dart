@@ -11,16 +11,16 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>
-    with SingleTickerProviderStateMixin {
+class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<Color> animation;
   ColorTween colorTween;
 
   @override
-  initState() {
-    controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
     colorTween = ColorTween(begin: Colors.blue, end: Colors.white);
     animation = colorTween.animate(controller)
       ..addListener(() {
@@ -32,8 +32,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     controller.addListener(() {
       setState(() {});
     });
-
-    super.initState();
   }
 
   @override
@@ -47,7 +45,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return Scaffold(
       backgroundColor: animation.value,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,23 +54,23 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               children: <Widget>[
                 Hero(
                   tag: 'logo',
-                  child: Container(
-                    child: Image.asset('images/logo.png'),
+                  child: SizedBox(
                     height: 60.0,
+                    child: Image.asset('images/logo.png'),
                   ),
                 ),
                 TypewriterAnimatedTextKit(
-                  speed: Duration(milliseconds: 300),
+                  speed: const Duration(milliseconds: 300),
                   totalRepeatCount: 1,
-                  text: ['Flash Chat'],
-                  textStyle: TextStyle(
+                  text: const ['Flash Chat'],
+                  textStyle: const TextStyle(
                     fontSize: 42.0,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 48.0,
             ),
             MainButton(
@@ -83,8 +81,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             MainButton(
               color: Colors.blueAccent,
               text: 'Register',
-              handlePressed: () =>
-                  Navigator.pushNamed(context, RegistrationScreen.id),
+              handlePressed: () => Navigator.pushNamed(context, RegistrationScreen.id),
             ),
           ],
         ),

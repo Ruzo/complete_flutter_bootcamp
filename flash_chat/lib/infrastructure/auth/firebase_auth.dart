@@ -12,8 +12,8 @@ class FirebaseAuthFacade implements IAuthFacade {
 
   @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({EmailAddress emailAddress, Password password}) async {
-    String emailValue = emailAddress.apiSafeValue();
-    String passwordValue = password.apiSafeValue();
+    final String emailValue = emailAddress.apiSafeValue();
+    final String passwordValue = password.apiSafeValue();
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(email: emailValue, password: passwordValue);
       return right(unit);
@@ -35,8 +35,8 @@ class FirebaseAuthFacade implements IAuthFacade {
 
   @override
   Future<Either<AuthFailure, Unit>> signinWithEmailAndPassword({EmailAddress emailAddress, Password password}) async {
-    String emailValue = emailAddress.apiSafeValue();
-    String passwordValue = password.apiSafeValue();
+    final String emailValue = emailAddress.apiSafeValue();
+    final String passwordValue = password.apiSafeValue();
     try {
       await _firebaseAuth.signInWithEmailAndPassword(email: emailValue, password: passwordValue);
       return right(unit);
@@ -66,7 +66,7 @@ class FirebaseAuthFacade implements IAuthFacade {
         final googleUser = await _googleSignIn.signIn();
         if (googleUser == null) return left(const AuthFailure.canceledByUser());
         final userAuthentication = await googleUser.authentication;
-        final googleCredentials = await GoogleAuthProvider.getCredential(
+        final googleCredentials = GoogleAuthProvider.credential(
           idToken: userAuthentication.idToken,
           accessToken: userAuthentication.accessToken,
         );

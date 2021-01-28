@@ -34,7 +34,7 @@ class SigninFormBloc extends Bloc<SigninFormEvent, SigninFormState> {
           authFailureOrSuccessOption: none(),
         );
 
-        Either<AuthFailure, Unit> successOrFailure = await _authFacade.signinWithGoogle();
+        final Either<AuthFailure, Unit> successOrFailure = await _authFacade.signinWithGoogle();
 
         yield state.copyWith(
           isSubmitting: false,
@@ -58,13 +58,13 @@ class SigninFormBloc extends Bloc<SigninFormEvent, SigninFormState> {
 
   Stream<SigninFormState> emailAndPasswordEventToState(
     Future<Either<AuthFailure, Unit>> Function({
-      EmailAddress emailAddress,
-      Password password,
+      @required EmailAddress emailAddress,
+      @required Password password,
     })
         authFacade,
   ) async* {
     Either<AuthFailure, Unit> failureOrSuccess;
-    bool validEntries = state.emailAddress.isValid && state.password.isValid;
+    final bool validEntries = state.emailAddress.isValid && state.password.isValid;
 
     if (validEntries) {
       yield state.copyWith(

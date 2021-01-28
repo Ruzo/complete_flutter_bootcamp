@@ -15,14 +15,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String email;
   String password;
   API api = API();
-  FirebaseUser user;
+  User user;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -30,52 +30,51 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Flexible(
               child: Hero(
                 tag: 'logo',
-                child: Container(
+                child: SizedBox(
                   height: 200.0,
                   child: Image.asset('images/logo.png'),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 48.0,
             ),
             StyledTextField(
               keyboardType: TextInputType.emailAddress,
               handleOnChanged: (text) {
                 setState(() {
-                  email = text;
+                  email = text.toString();
                 });
               },
               hintText: 'Enter your email',
               color: Colors.blueAccent,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             StyledTextField(
               hideText: true,
               handleOnChanged: (text) {
                 setState(() {
-                  password = text;
+                  password = text.toString();
                 });
               },
               hintText: 'Enter your password',
               color: Colors.blueAccent,
             ),
-            SizedBox(
+            const SizedBox(
               height: 24.0,
             ),
             MainButton(
               color: Colors.blueAccent,
               text: 'Register',
               handlePressed: () async {
-                print('$email - $password');
-                FirebaseUser newUser =
-                    await api.registerUserByEmail(email, password);
+                debugPrint('$email - $password');
+                // final User newUser = await api.registerUserByEmail(email, password);
                 setState(() {
-                  user = newUser;
+                  // user = newUser;
                 });
-                print(user);
+                debugPrint(user.toString());
               },
             ),
           ],

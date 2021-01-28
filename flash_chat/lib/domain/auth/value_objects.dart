@@ -4,6 +4,7 @@ import 'package:flash_chat/domain/core/value_object.dart';
 import 'package:flash_chat/domain/core/value_validators.dart';
 
 class EmailAddress extends ValueObject<String> {
+  @override
   final Either<ValueFailure<String>, String> value;
 
   factory EmailAddress(String email) {
@@ -19,6 +20,7 @@ class EmailAddress extends ValueObject<String> {
 }
 
 class Password extends ValueObject<String> {
+  @override
   final Either<ValueFailure<String>, String> value;
 
   factory Password(String password) {

@@ -7,7 +7,7 @@ class StyledTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool hideText;
 
-  StyledTextField({
+  const StyledTextField({
     @required this.handleOnChanged,
     this.hintText = '',
     @required this.color,
@@ -23,17 +23,17 @@ class StyledTextField extends StatelessWidget {
       obscureText: hideText,
       decoration: InputDecoration(
         hintText: hintText,
-        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-        border: OutlineInputBorder(
+        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(32.0)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: color, width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          borderSide: BorderSide(color: color),
+          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: color, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
         ),
       ),
     );
