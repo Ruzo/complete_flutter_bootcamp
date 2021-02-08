@@ -6,6 +6,7 @@ import 'package:flash_chat/domain/auth/auth_failures.dart';
 import 'package:flash_chat/domain/auth/i_auth_facade.dart';
 import 'package:flash_chat/domain/auth/value_objects.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 part 'signin_form_event.dart';
@@ -13,9 +14,10 @@ part 'signin_form_state.dart';
 
 part 'signin_form_bloc.freezed.dart';
 
+@injectable
 class SigninFormBloc extends Bloc<SigninFormEvent, SigninFormState> {
-  SigninFormBloc() : super(SigninFormState.initial());
-  IAuthFacade _authFacade;
+  final IAuthFacade _authFacade;
+  SigninFormBloc(this._authFacade) : super(SigninFormState.initial());
 
   @override
   Stream<SigninFormState> mapEventToState(

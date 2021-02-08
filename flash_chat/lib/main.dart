@@ -1,8 +1,7 @@
+import 'package:flash_chat/injection.dart';
+import 'package:flash_chat/presentation/core/app_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flash_chat/screens/welcome_screen.dart';
-import 'package:flash_chat/screens/login_screen.dart';
-import 'package:flash_chat/screens/registration_screen.dart';
-import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:injectable/injectable.dart';
 
 void main() {
   // Change debugPrint to an empty function in release mode
@@ -16,20 +15,6 @@ void main() {
     debugPrint = (String message, {int wrapWidth}) {};
   }
 
-  runApp(FlashChat());
-}
-
-class FlashChat extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: WelcomeScreen.id,
-      routes: {
-        WelcomeScreen.id: (context) => WelcomeScreen(),
-        LoginScreen.id: (context) => LoginScreen(),
-        RegistrationScreen.id: (context) => RegistrationScreen(),
-        ChatScreen.id: (context) => ChatScreen(),
-      },
-    );
-  }
+  configureInjection(Environment.prod);
+  runApp(AppScreen());
 }
