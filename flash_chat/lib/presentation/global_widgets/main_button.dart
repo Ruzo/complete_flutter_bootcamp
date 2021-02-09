@@ -16,7 +16,7 @@ class MainButton extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.circular(30.0),
         child: MaterialButton(
-          onPressed: () => handlePressed,
+          onPressed: () => handlePressed(),
           minWidth: 200.0,
           height: 42.0,
           child: Text(

@@ -1,6 +1,6 @@
-import 'package:flash_chat/presentation/login_screen.dart';
-import 'package:flash_chat/presentation/registration_screen.dart';
-import 'package:flash_chat/widgets/main_button.dart';
+import 'package:flash_chat/presentation/sign_in/login_screen.dart';
+import 'package:flash_chat/presentation/sign_in/registration_screen.dart';
+import 'package:flash_chat/presentation/global_widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -63,10 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                   speed: const Duration(milliseconds: 300),
                   totalRepeatCount: 1,
                   text: const ['Flash Chat'],
-                  textStyle: const TextStyle(
-                    fontSize: 42.0,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  textStyle: const TextStyle(fontSize: 42.0, fontWeight: FontWeight.w900, color: Colors.black),
                 ),
               ],
             ),
@@ -83,6 +80,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
               text: 'Register',
               handlePressed: () => Navigator.pushNamed(context, RegistrationScreen.id),
             ),
+            TextButton(
+              onPressed: () => debugPrint('Button pressed!'),
+              child: const Text('Google Signin'),
+            )
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class StyledTextField extends StatelessWidget {
   final Function handleOnChanged;
+  final ValidatorFunction handleValidator;
   final String hintText;
   final Color color;
   final TextInputType keyboardType;
@@ -9,6 +10,7 @@ class StyledTextField extends StatelessWidget {
 
   const StyledTextField({
     @required this.handleOnChanged,
+    @required this.handleValidator,
     this.hintText = '',
     @required this.color,
     this.keyboardType = TextInputType.text,
@@ -17,8 +19,9 @@ class StyledTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       onChanged: (value) => handleOnChanged(value),
+      validator: (value) => handleValidator(value),
       keyboardType: keyboardType,
       obscureText: hideText,
       decoration: InputDecoration(
@@ -39,3 +42,5 @@ class StyledTextField extends StatelessWidget {
     );
   }
 }
+
+typedef ValidatorFunction = String Function(String value);
