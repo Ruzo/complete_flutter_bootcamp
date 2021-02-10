@@ -4,8 +4,10 @@ class MainButton extends StatelessWidget {
   final Function handlePressed;
   final Color color;
   final String text;
+  final Color textColor;
 
-  const MainButton({this.color, this.text, this.handlePressed});
+  const MainButton(
+      {@required this.color, @required this.text, @required this.handlePressed, this.textColor = Colors.white});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,8 @@ class MainButton extends StatelessWidget {
           height: 42.0,
           child: Text(
             text,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: textColor,
             ),
           ),
         ),

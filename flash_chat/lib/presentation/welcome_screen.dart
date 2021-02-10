@@ -80,10 +80,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
               text: 'Register',
               handlePressed: () => Navigator.pushNamed(context, RegistrationScreen.id),
             ),
-            TextButton(
-              onPressed: () => debugPrint('Button pressed!'),
-              child: const Text('Google Signin'),
-            )
           ],
         ),
       ),

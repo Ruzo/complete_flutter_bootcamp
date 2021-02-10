@@ -41,5 +41,7 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Firebase service
 google-services.json
-GoogleService-Info.plist
+**/ios/Runner/GoogleService-Info.plist
