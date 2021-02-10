@@ -25,10 +25,10 @@ class SigninFormBloc extends Bloc<SigninFormEvent, SigninFormState> {
   ) async* {
     yield* event.map(
       signinWithEmailAndPasswordPressed: (e) async* {
-        emailAndPasswordEventToState(_authFacade.signinWithEmailAndPassword);
+        yield* emailAndPasswordEventToState(_authFacade.signinWithEmailAndPassword);
       },
       registerWithEmailAndPasswordPressed: (e) async* {
-        emailAndPasswordEventToState(_authFacade.registerWithEmailAndPassword);
+        yield* emailAndPasswordEventToState(_authFacade.registerWithEmailAndPassword);
       },
       signinWithGoogle: (e) async* {
         yield state.copyWith(

@@ -1,6 +1,6 @@
 import 'package:flash_chat/application/auth/signin_form/signin_form_bloc.dart';
 import 'package:flash_chat/injection.dart';
-import 'package:flash_chat/presentation/sign_in/widgets/login_form.dart';
+import 'package:flash_chat/presentation/sign_in/widgets/auth_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: BlocProvider(
           create: (context) => getIt<SigninFormBloc>(),
-          child: LoginForm(),
+          child: const AuthForm(
+            buttonText: 'Log in',
+            color: Colors.lightBlueAccent,
+            formEvent: SigninFormEvent.signinWithEmailAndPasswordPressed(),
+          ),
         ),
       ),
     );
