@@ -24,15 +24,15 @@ class FirebaseAuthFacade implements IAuthFacade {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(email: emailValue, password: passwordValue);
       return right(unit);
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case 'ERROR_EMAIL_ALREADY_IN_USE':
+        case 'email-already-in-use':
           return left(const AuthFailure.emailAlreadyInUse());
           break;
-        case 'ERROR_WEAK_PASSWORD':
+        case 'weak-password':
           return left(const AuthFailure.weakPassword());
           break;
-        case 'ERROR_INVALID_EMAIL':
+        case 'invalid-email':
           return left(const AuthFailure.invalidEmail());
         default:
           return left(const AuthFailure.serverError());
@@ -47,17 +47,17 @@ class FirebaseAuthFacade implements IAuthFacade {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(email: emailValue, password: passwordValue);
       return right(unit);
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case 'ERROR_WRONG_PASSWORD':
-        case 'ERROR_USER_NOT_FOUND':
-        case 'ERROR_USER_DISABLED':
+        case 'wrong-password':
+        case 'user-not-found':
+        case 'user-disabled':
           return left(const AuthFailure.wrongEmailAndPasswordCombination());
           break;
-        case 'ERROR_INVALID_EMAIL':
+        case 'invalid-email':
           return left(const AuthFailure.invalidEmail());
           break;
-        case 'ERROR_TOO_MANY_REQUESTS':
+        case 'too-many-requests':
           return left(const AuthFailure.tooManyRequests());
           break;
         default:
