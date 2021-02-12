@@ -5,6 +5,10 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class FirebaseInjectableModule {
   @lazySingleton
-  GoogleSignIn get googleSignIn => GoogleSignIn();
+  GoogleSignIn get googleSignIn => GoogleSignIn(
+        scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly'],
+        hostedDomain: "",
+        clientId: "",
+      );
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 }
