@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flash_chat/domain/core/value_failures.dart';
-import 'package:flash_chat/domain/core/value_object.dart';
+import 'package:flash_chat/domain/core/value_objects.dart';
 import 'package:flash_chat/domain/core/value_validators.dart';
 
 class EmailAddress extends ValueObject<String> {

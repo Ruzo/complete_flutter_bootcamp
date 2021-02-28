@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/domain/auth/auth_failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flash_chat/domain/auth/i_auth_facade.dart';
+import 'package:flash_chat/domain/auth/signed_in_user.dart';
 import 'package:flash_chat/domain/auth/value_objects.dart';
+import 'package:flash_chat/infrastructure/auth/firebase_auth_xt.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -84,4 +86,17 @@ class FirebaseAuthFacade implements IAuthFacade {
     }
     return right(unit);
   }
+
+  @override
+  Future<Option<SignedInUser>> getSignedInUser() async {
+    final newUser = optionOf(_firebaseAuth.currentUser?.toDomain());
+    // print('User: ${newUser.fold(() => null, (u) => u.toString())}');
+    return newUser;
+  }
+
+  @override
+  Future<void> signout() => Future.wait([
+        _firebaseAuth.signOut(),
+        _googleSignIn.signOut(),
+      ]);
 }

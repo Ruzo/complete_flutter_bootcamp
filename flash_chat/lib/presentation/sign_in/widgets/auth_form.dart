@@ -53,7 +53,11 @@ class AuthForm extends StatelessWidget {
                   tag: 'logo',
                   child: SizedBox(
                     height: 200.0,
-                    child: Image.asset('images/logo.png'),
+                    child: state.isSubmitting
+                        ? const CircularProgressIndicator(
+                            backgroundColor: Colors.orange,
+                          )
+                        : Image.asset('images/logo.png'),
                   ),
                 ),
               ),

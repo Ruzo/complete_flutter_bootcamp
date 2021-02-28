@@ -1,8 +1,11 @@
+import 'package:flash_chat/application/auth/user/user_bloc.dart';
+import 'package:flash_chat/presentation/chat_screen.dart';
 import 'package:flash_chat/presentation/sign_in/login_screen.dart';
 import 'package:flash_chat/presentation/sign_in/registration_screen.dart';
 import 'package:flash_chat/presentation/global_widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const id = 'WelcomeScreen';
@@ -15,10 +18,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   AnimationController controller;
   Animation<Color> animation;
   ColorTween colorTween;
+  Widget bottomWidget;
 
   @override
   void initState() {
     super.initState();
+    bottomWidget = const CircularProgressIndicator();
 
     controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
     colorTween = ColorTween(begin: Colors.blue, end: Colors.white);
@@ -70,19 +75,46 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
             const SizedBox(
               height: 48.0,
             ),
-            MainButton(
-              color: Colors.lightBlueAccent,
-              text: 'Log In',
-              handlePressed: () => Navigator.pushNamed(context, LoginScreen.id),
-            ),
-            MainButton(
-              color: Colors.blueAccent,
-              text: 'Register',
-              handlePressed: () => Navigator.pushNamed(context, RegistrationScreen.id),
-            ),
+            BlocListener<UserBloc, UserState>(
+                listener: (context, userState) {
+                  userState.when(
+                    initial: () {},
+                    authorized: () {
+                      return Navigator.pushNamed(context, ChatScreen.id);
+                    },
+                    unauthorized: () {
+                      setState(() {
+                        bottomWidget = SignInButtons();
+                      });
+                    },
+                  );
+                },
+                child: bottomWidget),
           ],
         ),
       ),
+    );
+  }
+}
+
+class SignInButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        MainButton(
+          color: Colors.lightBlueAccent,
+          text: 'Log In',
+          handlePressed: () => Navigator.pushNamed(context, LoginScreen.id),
+        ),
+        MainButton(
+          color: Colors.blueAccent,
+          text: 'Register',
+          handlePressed: () => Navigator.pushNamed(context, RegistrationScreen.id),
+        ),
+      ],
     );
   }
 }
