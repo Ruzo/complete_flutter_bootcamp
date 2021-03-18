@@ -26,6 +26,11 @@ class _$ValueFailureTearOff {
       failedValue: failedValue,
     );
   }
+
+// ignore: unused_element
+  EmptyMessage<T> emptyMessage<T>() {
+    return EmptyMessage<T>();
+  }
 }
 
 /// @nodoc
@@ -34,33 +39,32 @@ const $ValueFailure = _$ValueFailureTearOff();
 
 /// @nodoc
 mixin _$ValueFailure<T> {
-  T get failedValue;
-
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult invalidEmail(T failedValue),
     @required TResult shortPassword(T failedValue),
+    @required TResult emptyMessage(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult invalidEmail(T failedValue),
     TResult shortPassword(T failedValue),
+    TResult emptyMessage(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult invalidEmail(InvalidEmail<T> value),
     @required TResult shortPassword(ShortPassword<T> value),
+    @required TResult emptyMessage(EmptyMessage<T> value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult invalidEmail(InvalidEmail<T> value),
     TResult shortPassword(ShortPassword<T> value),
+    TResult emptyMessage(EmptyMessage<T> value),
     @required TResult orElse(),
   });
-
-  @JsonKey(ignore: true)
-  $ValueFailureCopyWith<T, ValueFailure<T>> get copyWith;
 }
 
 /// @nodoc
@@ -68,7 +72,6 @@ abstract class $ValueFailureCopyWith<T, $Res> {
   factory $ValueFailureCopyWith(
           ValueFailure<T> value, $Res Function(ValueFailure<T>) then) =
       _$ValueFailureCopyWithImpl<T, $Res>;
-  $Res call({T failedValue});
 }
 
 /// @nodoc
@@ -79,25 +82,13 @@ class _$ValueFailureCopyWithImpl<T, $Res>
   final ValueFailure<T> _value;
   // ignore: unused_field
   final $Res Function(ValueFailure<T>) _then;
-
-  @override
-  $Res call({
-    Object failedValue = freezed,
-  }) {
-    return _then(_value.copyWith(
-      failedValue:
-          failedValue == freezed ? _value.failedValue : failedValue as T,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class $InvalidEmailCopyWith<T, $Res>
-    implements $ValueFailureCopyWith<T, $Res> {
+abstract class $InvalidEmailCopyWith<T, $Res> {
   factory $InvalidEmailCopyWith(
           InvalidEmail<T> value, $Res Function(InvalidEmail<T>) then) =
       _$InvalidEmailCopyWithImpl<T, $Res>;
-  @override
   $Res call({T failedValue});
 }
 
@@ -169,9 +160,11 @@ class _$InvalidEmail<T>
   TResult when<TResult extends Object>({
     @required TResult invalidEmail(T failedValue),
     @required TResult shortPassword(T failedValue),
+    @required TResult emptyMessage(),
   }) {
     assert(invalidEmail != null);
     assert(shortPassword != null);
+    assert(emptyMessage != null);
     return invalidEmail(failedValue);
   }
 
@@ -180,6 +173,7 @@ class _$InvalidEmail<T>
   TResult maybeWhen<TResult extends Object>({
     TResult invalidEmail(T failedValue),
     TResult shortPassword(T failedValue),
+    TResult emptyMessage(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -194,9 +188,11 @@ class _$InvalidEmail<T>
   TResult map<TResult extends Object>({
     @required TResult invalidEmail(InvalidEmail<T> value),
     @required TResult shortPassword(ShortPassword<T> value),
+    @required TResult emptyMessage(EmptyMessage<T> value),
   }) {
     assert(invalidEmail != null);
     assert(shortPassword != null);
+    assert(emptyMessage != null);
     return invalidEmail(this);
   }
 
@@ -205,6 +201,7 @@ class _$InvalidEmail<T>
   TResult maybeMap<TResult extends Object>({
     TResult invalidEmail(InvalidEmail<T> value),
     TResult shortPassword(ShortPassword<T> value),
+    TResult emptyMessage(EmptyMessage<T> value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -218,20 +215,16 @@ class _$InvalidEmail<T>
 abstract class InvalidEmail<T> implements ValueFailure<T> {
   const factory InvalidEmail({@required T failedValue}) = _$InvalidEmail<T>;
 
-  @override
   T get failedValue;
-  @override
   @JsonKey(ignore: true)
   $InvalidEmailCopyWith<T, InvalidEmail<T>> get copyWith;
 }
 
 /// @nodoc
-abstract class $ShortPasswordCopyWith<T, $Res>
-    implements $ValueFailureCopyWith<T, $Res> {
+abstract class $ShortPasswordCopyWith<T, $Res> {
   factory $ShortPasswordCopyWith(
           ShortPassword<T> value, $Res Function(ShortPassword<T>) then) =
       _$ShortPasswordCopyWithImpl<T, $Res>;
-  @override
   $Res call({T failedValue});
 }
 
@@ -303,9 +296,11 @@ class _$ShortPassword<T>
   TResult when<TResult extends Object>({
     @required TResult invalidEmail(T failedValue),
     @required TResult shortPassword(T failedValue),
+    @required TResult emptyMessage(),
   }) {
     assert(invalidEmail != null);
     assert(shortPassword != null);
+    assert(emptyMessage != null);
     return shortPassword(failedValue);
   }
 
@@ -314,6 +309,7 @@ class _$ShortPassword<T>
   TResult maybeWhen<TResult extends Object>({
     TResult invalidEmail(T failedValue),
     TResult shortPassword(T failedValue),
+    TResult emptyMessage(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -328,9 +324,11 @@ class _$ShortPassword<T>
   TResult map<TResult extends Object>({
     @required TResult invalidEmail(InvalidEmail<T> value),
     @required TResult shortPassword(ShortPassword<T> value),
+    @required TResult emptyMessage(EmptyMessage<T> value),
   }) {
     assert(invalidEmail != null);
     assert(shortPassword != null);
+    assert(emptyMessage != null);
     return shortPassword(this);
   }
 
@@ -339,6 +337,7 @@ class _$ShortPassword<T>
   TResult maybeMap<TResult extends Object>({
     TResult invalidEmail(InvalidEmail<T> value),
     TResult shortPassword(ShortPassword<T> value),
+    TResult emptyMessage(EmptyMessage<T> value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -352,9 +351,113 @@ class _$ShortPassword<T>
 abstract class ShortPassword<T> implements ValueFailure<T> {
   const factory ShortPassword({@required T failedValue}) = _$ShortPassword<T>;
 
-  @override
   T get failedValue;
-  @override
   @JsonKey(ignore: true)
   $ShortPasswordCopyWith<T, ShortPassword<T>> get copyWith;
+}
+
+/// @nodoc
+abstract class $EmptyMessageCopyWith<T, $Res> {
+  factory $EmptyMessageCopyWith(
+          EmptyMessage<T> value, $Res Function(EmptyMessage<T>) then) =
+      _$EmptyMessageCopyWithImpl<T, $Res>;
+}
+
+/// @nodoc
+class _$EmptyMessageCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res>
+    implements $EmptyMessageCopyWith<T, $Res> {
+  _$EmptyMessageCopyWithImpl(
+      EmptyMessage<T> _value, $Res Function(EmptyMessage<T>) _then)
+      : super(_value, (v) => _then(v as EmptyMessage<T>));
+
+  @override
+  EmptyMessage<T> get _value => super._value as EmptyMessage<T>;
+}
+
+/// @nodoc
+class _$EmptyMessage<T>
+    with DiagnosticableTreeMixin
+    implements EmptyMessage<T> {
+  const _$EmptyMessage();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.emptyMessage()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.emptyMessage'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is EmptyMessage<T>);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult invalidEmail(T failedValue),
+    @required TResult shortPassword(T failedValue),
+    @required TResult emptyMessage(),
+  }) {
+    assert(invalidEmail != null);
+    assert(shortPassword != null);
+    assert(emptyMessage != null);
+    return emptyMessage();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult invalidEmail(T failedValue),
+    TResult shortPassword(T failedValue),
+    TResult emptyMessage(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (emptyMessage != null) {
+      return emptyMessage();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult invalidEmail(InvalidEmail<T> value),
+    @required TResult shortPassword(ShortPassword<T> value),
+    @required TResult emptyMessage(EmptyMessage<T> value),
+  }) {
+    assert(invalidEmail != null);
+    assert(shortPassword != null);
+    assert(emptyMessage != null);
+    return emptyMessage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult invalidEmail(InvalidEmail<T> value),
+    TResult shortPassword(ShortPassword<T> value),
+    TResult emptyMessage(EmptyMessage<T> value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (emptyMessage != null) {
+      return emptyMessage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class EmptyMessage<T> implements ValueFailure<T> {
+  const factory EmptyMessage() = _$EmptyMessage<T>;
 }

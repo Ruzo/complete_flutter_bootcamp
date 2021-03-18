@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flash_chat/application/auth/signin_form/signin_form_bloc.dart';
+import 'package:flash_chat/presentation/chat_screen.dart';
 import 'package:flash_chat/presentation/global_widgets/main_button.dart';
 import 'package:flash_chat/presentation/global_widgets/styled_textfield.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class AuthForm extends StatelessWidget {
               )).show(context);
             },
             (_) {
-              //TODO: Navigate
+              Navigator.pushReplacementNamed(context, ChatScreen.id);
             },
           ),
         );

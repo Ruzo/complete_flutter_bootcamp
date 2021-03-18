@@ -23,8 +23,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    bottomWidget = const CircularProgressIndicator();
-
+    bottomWidget = const SizedBox(
+      width: 50,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
     controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
     colorTween = ColorTween(begin: Colors.blue, end: Colors.white);
     animation = colorTween.animate(controller)
@@ -47,53 +51,56 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: animation.value,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
+    // getIt<UserBloc>().add(const UserEvent.getSignedInUser());
+    return BlocListener<UserBloc, UserState>(
+        listener: (context, userState) {
+          userState.maybeWhen(
+              initial: () {},
+              authorized: () => Navigator.pushNamed(context, ChatScreen.id),
+              unauthorized: () {
+                return setState(() {
+                  bottomWidget = SignInButtons();
+                });
+              },
+              orElse: () {
+                return setState(() {
+                  bottomWidget = SignInButtons();
+                });
+              });
+        },
+        child: Scaffold(
+          backgroundColor: animation.value,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Hero(
-                  tag: 'logo',
-                  child: SizedBox(
-                    height: 60.0,
-                    child: Image.asset('images/logo.png'),
-                  ),
+                Row(
+                  children: <Widget>[
+                    Hero(
+                      tag: 'logo',
+                      child: SizedBox(
+                        height: 60.0,
+                        child: Image.asset('images/logo.png'),
+                      ),
+                    ),
+                    TypewriterAnimatedTextKit(
+                      speed: const Duration(milliseconds: 300),
+                      totalRepeatCount: 1,
+                      text: const ['Flash Chat'],
+                      textStyle: const TextStyle(fontSize: 42.0, fontWeight: FontWeight.w900, color: Colors.black),
+                    ),
+                  ],
                 ),
-                TypewriterAnimatedTextKit(
-                  speed: const Duration(milliseconds: 300),
-                  totalRepeatCount: 1,
-                  text: const ['Flash Chat'],
-                  textStyle: const TextStyle(fontSize: 42.0, fontWeight: FontWeight.w900, color: Colors.black),
+                const SizedBox(
+                  height: 48.0,
                 ),
+                bottomWidget,
               ],
             ),
-            const SizedBox(
-              height: 48.0,
-            ),
-            BlocListener<UserBloc, UserState>(
-                listener: (context, userState) {
-                  userState.when(
-                    initial: () {},
-                    authorized: () {
-                      return Navigator.pushNamed(context, ChatScreen.id);
-                    },
-                    unauthorized: () {
-                      setState(() {
-                        bottomWidget = SignInButtons();
-                      });
-                    },
-                  );
-                },
-                child: bottomWidget),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
 

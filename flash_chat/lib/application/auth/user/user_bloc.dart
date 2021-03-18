@@ -13,9 +13,7 @@ part 'user_state.dart';
 @injectable
 class UserBloc extends Bloc<UserEvent, UserState> {
   final IAuthFacade _iAuthFacade;
-  UserBloc(
-    this._iAuthFacade,
-  ) : super(const UserState.initial());
+  UserBloc(this._iAuthFacade) : super(const UserState.initial());
 
   @override
   Stream<UserState> mapEventToState(

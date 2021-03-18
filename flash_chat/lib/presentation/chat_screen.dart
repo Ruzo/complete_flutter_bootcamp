@@ -1,4 +1,7 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flash_chat/application/auth/user/user_bloc.dart';
+import 'package:flash_chat/application/messages_list/messageslist_bloc.dart';
+import 'package:flash_chat/injection.dart';
 import 'package:flash_chat/presentation/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
@@ -14,14 +17,19 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
-      listener: (context, userState) => userState.when(
-        initial: () => {},
-        authorized: () => {},
-        unauthorized: () => Navigator.popUntil(context, ModalRoute.withName(WelcomeScreen.id)),
-      ),
-      builder: (context, userState) {
-        return Scaffold(
+    return BlocProvider<MessageslistBloc>(
+      create: (BuildContext context) {
+        debugPrint('adding event MessageslistEvent.watchMessages()');
+        return getIt<MessageslistBloc>()..add(const MessageslistEvent.watchMessages());
+      },
+      child: BlocListener<UserBloc, UserState>(
+        listener: (context, userState) {
+          userState.maybeMap(
+            unauthorized: (_) => Navigator.pushReplacementNamed(context, WelcomeScreen.id),
+            orElse: () {},
+          );
+        },
+        child: Scaffold(
           appBar: AppBar(
             // leading: null,
             automaticallyImplyLeading: false,
@@ -30,6 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   icon: const Icon(Icons.close),
                   onPressed: () {
                     context.read<UserBloc>().add(const UserEvent.signOut());
+                    Navigator.pushReplacementNamed(context, WelcomeScreen.id);
                   }),
             ],
             title: const Text('⚡️Chat'),
@@ -40,6 +49,31 @@ class _ChatScreenState extends State<ChatScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                Expanded(
+                  child: BlocBuilder<MessageslistBloc, MessageslistState>(
+                    builder: (context, state) {
+                      return state.map(
+                        initial: (e) => Container(),
+                        loadingMessages: (e) => const Center(child: CircularProgressIndicator()),
+                        loadingSuccess: (data) => ListView.builder(
+                          itemBuilder: (context, index) {
+                            final String message = data.messages[index].text.value.getOrElse(() => '!!error!!');
+                            return ListTile(
+                              title: Text(
+                                message,
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                            );
+                          },
+                          itemCount: data.messages.length,
+                        ),
+                        loadingFailure: (f) => FlushbarHelper.createError(
+                          message: f.failure.map(unexpected: (_) => 'Unexpected Error Getting Messages!'),
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 Container(
                   decoration: kMessageContainerDecoration,
                   child: Row(
@@ -68,8 +102,8 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
