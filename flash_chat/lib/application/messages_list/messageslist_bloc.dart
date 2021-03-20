@@ -23,17 +23,14 @@ class MessageslistBloc extends Bloc<MessageslistEvent, MessageslistState> {
   ) async* {
     yield* event.map(
       messagesReceived: (e) async* {
-        print('messagesReceived');
         yield e.failureOrMessages.fold(
           (f) => MessageslistState.loadingFailure(f),
           (messages) => MessageslistState.loadingSuccess(messages),
         );
       },
       watchMessages: (e) async* {
-        print('watchMessages event');
         yield const MessageslistState.loadingMessages();
         _iMessageFacade.messageStream().listen((messages) {
-          print('messages: $messages');
           return add(MessageslistEvent.messagesReceived(messages));
         });
       },

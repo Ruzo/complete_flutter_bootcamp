@@ -14,8 +14,15 @@ class _$MessageFailureTearOff {
   const _$MessageFailureTearOff();
 
 // ignore: unused_element
-  Unexpected unexpected() {
-    return const Unexpected();
+  UnexpectedError unexpectedError(String errorMessage) {
+    return UnexpectedError(
+      errorMessage,
+    );
+  }
+
+// ignore: unused_element
+  None none() {
+    return const None();
   }
 }
 
@@ -27,20 +34,24 @@ const $MessageFailure = _$MessageFailureTearOff();
 mixin _$MessageFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult unexpected(),
+    @required TResult unexpectedError(String errorMessage),
+    @required TResult none(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult unexpected(),
+    TResult unexpectedError(String errorMessage),
+    TResult none(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult unexpected(Unexpected value),
+    @required TResult unexpectedError(UnexpectedError value),
+    @required TResult none(None value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult unexpected(Unexpected value),
+    TResult unexpectedError(UnexpectedError value),
+    TResult none(None value),
     @required TResult orElse(),
   });
 }
@@ -63,40 +74,167 @@ class _$MessageFailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class $UnexpectedCopyWith<$Res> {
-  factory $UnexpectedCopyWith(
-          Unexpected value, $Res Function(Unexpected) then) =
-      _$UnexpectedCopyWithImpl<$Res>;
+abstract class $UnexpectedErrorCopyWith<$Res> {
+  factory $UnexpectedErrorCopyWith(
+          UnexpectedError value, $Res Function(UnexpectedError) then) =
+      _$UnexpectedErrorCopyWithImpl<$Res>;
+  $Res call({String errorMessage});
 }
 
 /// @nodoc
-class _$UnexpectedCopyWithImpl<$Res> extends _$MessageFailureCopyWithImpl<$Res>
-    implements $UnexpectedCopyWith<$Res> {
-  _$UnexpectedCopyWithImpl(Unexpected _value, $Res Function(Unexpected) _then)
-      : super(_value, (v) => _then(v as Unexpected));
+class _$UnexpectedErrorCopyWithImpl<$Res>
+    extends _$MessageFailureCopyWithImpl<$Res>
+    implements $UnexpectedErrorCopyWith<$Res> {
+  _$UnexpectedErrorCopyWithImpl(
+      UnexpectedError _value, $Res Function(UnexpectedError) _then)
+      : super(_value, (v) => _then(v as UnexpectedError));
 
   @override
-  Unexpected get _value => super._value as Unexpected;
+  UnexpectedError get _value => super._value as UnexpectedError;
+
+  @override
+  $Res call({
+    Object errorMessage = freezed,
+  }) {
+    return _then(UnexpectedError(
+      errorMessage == freezed ? _value.errorMessage : errorMessage as String,
+    ));
+  }
 }
 
 /// @nodoc
-class _$Unexpected with DiagnosticableTreeMixin implements Unexpected {
-  const _$Unexpected();
+class _$UnexpectedError
+    with DiagnosticableTreeMixin
+    implements UnexpectedError {
+  const _$UnexpectedError(this.errorMessage) : assert(errorMessage != null);
+
+  @override
+  final String errorMessage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MessageFailure.unexpected()';
+    return 'MessageFailure.unexpectedError(errorMessage: $errorMessage)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'MessageFailure.unexpected'));
+    properties
+      ..add(DiagnosticsProperty('type', 'MessageFailure.unexpectedError'))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Unexpected);
+    return identical(this, other) ||
+        (other is UnexpectedError &&
+            (identical(other.errorMessage, errorMessage) ||
+                const DeepCollectionEquality()
+                    .equals(other.errorMessage, errorMessage)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(errorMessage);
+
+  @JsonKey(ignore: true)
+  @override
+  $UnexpectedErrorCopyWith<UnexpectedError> get copyWith =>
+      _$UnexpectedErrorCopyWithImpl<UnexpectedError>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult unexpectedError(String errorMessage),
+    @required TResult none(),
+  }) {
+    assert(unexpectedError != null);
+    assert(none != null);
+    return unexpectedError(errorMessage);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult unexpectedError(String errorMessage),
+    TResult none(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (unexpectedError != null) {
+      return unexpectedError(errorMessage);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult unexpectedError(UnexpectedError value),
+    @required TResult none(None value),
+  }) {
+    assert(unexpectedError != null);
+    assert(none != null);
+    return unexpectedError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult unexpectedError(UnexpectedError value),
+    TResult none(None value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (unexpectedError != null) {
+      return unexpectedError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UnexpectedError implements MessageFailure {
+  const factory UnexpectedError(String errorMessage) = _$UnexpectedError;
+
+  String get errorMessage;
+  @JsonKey(ignore: true)
+  $UnexpectedErrorCopyWith<UnexpectedError> get copyWith;
+}
+
+/// @nodoc
+abstract class $NoneCopyWith<$Res> {
+  factory $NoneCopyWith(None value, $Res Function(None) then) =
+      _$NoneCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$NoneCopyWithImpl<$Res> extends _$MessageFailureCopyWithImpl<$Res>
+    implements $NoneCopyWith<$Res> {
+  _$NoneCopyWithImpl(None _value, $Res Function(None) _then)
+      : super(_value, (v) => _then(v as None));
+
+  @override
+  None get _value => super._value as None;
+}
+
+/// @nodoc
+class _$None with DiagnosticableTreeMixin implements None {
+  const _$None();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MessageFailure.none()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'MessageFailure.none'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is None);
   }
 
   @override
@@ -105,21 +243,24 @@ class _$Unexpected with DiagnosticableTreeMixin implements Unexpected {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult unexpected(),
+    @required TResult unexpectedError(String errorMessage),
+    @required TResult none(),
   }) {
-    assert(unexpected != null);
-    return unexpected();
+    assert(unexpectedError != null);
+    assert(none != null);
+    return none();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult unexpected(),
+    TResult unexpectedError(String errorMessage),
+    TResult none(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
-    if (unexpected != null) {
-      return unexpected();
+    if (none != null) {
+      return none();
     }
     return orElse();
   }
@@ -127,26 +268,29 @@ class _$Unexpected with DiagnosticableTreeMixin implements Unexpected {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult unexpected(Unexpected value),
+    @required TResult unexpectedError(UnexpectedError value),
+    @required TResult none(None value),
   }) {
-    assert(unexpected != null);
-    return unexpected(this);
+    assert(unexpectedError != null);
+    assert(none != null);
+    return none(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult unexpected(Unexpected value),
+    TResult unexpectedError(UnexpectedError value),
+    TResult none(None value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
-    if (unexpected != null) {
-      return unexpected(this);
+    if (none != null) {
+      return none(this);
     }
     return orElse();
   }
 }
 
-abstract class Unexpected implements MessageFailure {
-  const factory Unexpected() = _$Unexpected;
+abstract class None implements MessageFailure {
+  const factory None() = _$None;
 }

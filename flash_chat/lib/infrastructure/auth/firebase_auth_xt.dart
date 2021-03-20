@@ -7,5 +7,6 @@ extension FirebaseAuthXt on firebase.User {
         id: UniqueID.fromUniqueString(
           uid,
         ),
+        email: email,
       );
 }

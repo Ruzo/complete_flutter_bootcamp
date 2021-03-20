@@ -257,8 +257,10 @@ class _$UserStateTearOff {
   }
 
 // ignore: unused_element
-  _Authorized authorized() {
-    return const _Authorized();
+  _Authorized authorized(SignedInUser user) {
+    return _Authorized(
+      user,
+    );
   }
 
 // ignore: unused_element
@@ -276,13 +278,13 @@ mixin _$UserState {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult initial(),
-    @required TResult authorized(),
+    @required TResult authorized(SignedInUser user),
     @required TResult unauthorized(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
-    TResult authorized(),
+    TResult authorized(SignedInUser user),
     TResult unauthorized(),
     @required TResult orElse(),
   });
@@ -353,7 +355,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult initial(),
-    @required TResult authorized(),
+    @required TResult authorized(SignedInUser user),
     @required TResult unauthorized(),
   }) {
     assert(initial != null);
@@ -366,7 +368,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
-    TResult authorized(),
+    TResult authorized(SignedInUser user),
     TResult unauthorized(),
     @required TResult orElse(),
   }) {
@@ -415,6 +417,9 @@ abstract class _$AuthorizedCopyWith<$Res> {
   factory _$AuthorizedCopyWith(
           _Authorized value, $Res Function(_Authorized) then) =
       __$AuthorizedCopyWithImpl<$Res>;
+  $Res call({SignedInUser user});
+
+  $SignedInUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -426,49 +431,80 @@ class __$AuthorizedCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 
   @override
   _Authorized get _value => super._value as _Authorized;
+
+  @override
+  $Res call({
+    Object user = freezed,
+  }) {
+    return _then(_Authorized(
+      user == freezed ? _value.user : user as SignedInUser,
+    ));
+  }
+
+  @override
+  $SignedInUserCopyWith<$Res> get user {
+    if (_value.user == null) {
+      return null;
+    }
+    return $SignedInUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value));
+    });
+  }
 }
 
 /// @nodoc
 class _$_Authorized implements _Authorized {
-  const _$_Authorized();
+  const _$_Authorized(this.user) : assert(user != null);
+
+  @override
+  final SignedInUser user;
 
   @override
   String toString() {
-    return 'UserState.authorized()';
+    return 'UserState.authorized(user: $user)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Authorized);
+    return identical(this, other) ||
+        (other is _Authorized &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(user);
+
+  @JsonKey(ignore: true)
+  @override
+  _$AuthorizedCopyWith<_Authorized> get copyWith =>
+      __$AuthorizedCopyWithImpl<_Authorized>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult initial(),
-    @required TResult authorized(),
+    @required TResult authorized(SignedInUser user),
     @required TResult unauthorized(),
   }) {
     assert(initial != null);
     assert(authorized != null);
     assert(unauthorized != null);
-    return authorized();
+    return authorized(user);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
-    TResult authorized(),
+    TResult authorized(SignedInUser user),
     TResult unauthorized(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (authorized != null) {
-      return authorized();
+      return authorized(user);
     }
     return orElse();
   }
@@ -503,7 +539,11 @@ class _$_Authorized implements _Authorized {
 }
 
 abstract class _Authorized implements UserState {
-  const factory _Authorized() = _$_Authorized;
+  const factory _Authorized(SignedInUser user) = _$_Authorized;
+
+  SignedInUser get user;
+  @JsonKey(ignore: true)
+  _$AuthorizedCopyWith<_Authorized> get copyWith;
 }
 
 /// @nodoc
@@ -545,7 +585,7 @@ class _$_Unauthorized implements _Unauthorized {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult initial(),
-    @required TResult authorized(),
+    @required TResult authorized(SignedInUser user),
     @required TResult unauthorized(),
   }) {
     assert(initial != null);
@@ -558,7 +598,7 @@ class _$_Unauthorized implements _Unauthorized {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
-    TResult authorized(),
+    TResult authorized(SignedInUser user),
     TResult unauthorized(),
     @required TResult orElse(),
   }) {

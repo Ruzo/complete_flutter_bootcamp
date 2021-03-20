@@ -5,5 +5,6 @@ part 'message_failures.freezed.dart';
 
 @freezed
 abstract class MessageFailure with _$MessageFailure {
-  const factory MessageFailure.unexpected() = Unexpected;
+  const factory MessageFailure.unexpectedError(String errorMessage) = UnexpectedError;
+  const factory MessageFailure.none() = None;
 }

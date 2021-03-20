@@ -56,7 +56,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         listener: (context, userState) {
           userState.maybeWhen(
               initial: () {},
-              authorized: () => Navigator.pushNamed(context, ChatScreen.id),
+              authorized: (_) => Navigator.pushNamed(context, ChatScreen.id),
               unauthorized: () {
                 return setState(() {
                   bottomWidget = SignInButtons();

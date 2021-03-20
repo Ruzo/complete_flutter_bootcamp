@@ -20,7 +20,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       listener: (context, userState) {
         userState.when(
           initial: () {},
-          authorized: () => Navigator.pushNamed(context, ChatScreen.id),
+          authorized: (_) => Navigator.pushNamed(context, ChatScreen.id),
           unauthorized: () {},
         );
       },

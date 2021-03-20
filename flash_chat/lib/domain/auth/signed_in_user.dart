@@ -7,5 +7,6 @@ part 'signed_in_user.freezed.dart';
 abstract class SignedInUser with _$SignedInUser {
   const factory SignedInUser({
     @required UniqueID id,
+    @required String email,
   }) = _SignedInUser;
 }

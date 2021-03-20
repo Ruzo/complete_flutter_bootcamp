@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, userState) {
         userState.when(
           initial: () {},
-          authorized: () => Navigator.pushNamed(context, ChatScreen.id),
+          authorized: (_) => Navigator.pushNamed(context, ChatScreen.id),
           unauthorized: () {},
         );
       },

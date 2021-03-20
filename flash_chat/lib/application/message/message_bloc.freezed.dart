@@ -14,8 +14,10 @@ class _$MessageEventTearOff {
   const _$MessageEventTearOff();
 
 // ignore: unused_element
-  _Sent sent() {
-    return const _Sent();
+  _Sent sent({@required String author}) {
+    return _Sent(
+      author: author,
+    );
   }
 
 // ignore: unused_element
@@ -34,12 +36,12 @@ const $MessageEvent = _$MessageEventTearOff();
 mixin _$MessageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult sent(),
+    @required TResult sent(String author),
     @required TResult textChanged(String text),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult sent(),
+    TResult sent(String author),
     TResult textChanged(String text),
     @required TResult orElse(),
   });
@@ -76,6 +78,7 @@ class _$MessageEventCopyWithImpl<$Res> implements $MessageEventCopyWith<$Res> {
 abstract class _$SentCopyWith<$Res> {
   factory _$SentCopyWith(_Sent value, $Res Function(_Sent) then) =
       __$SentCopyWithImpl<$Res>;
+  $Res call({String author});
 }
 
 /// @nodoc
@@ -86,46 +89,67 @@ class __$SentCopyWithImpl<$Res> extends _$MessageEventCopyWithImpl<$Res>
 
   @override
   _Sent get _value => super._value as _Sent;
+
+  @override
+  $Res call({
+    Object author = freezed,
+  }) {
+    return _then(_Sent(
+      author: author == freezed ? _value.author : author as String,
+    ));
+  }
 }
 
 /// @nodoc
 class _$_Sent implements _Sent {
-  const _$_Sent();
+  const _$_Sent({@required this.author}) : assert(author != null);
+
+  @override // @required MessageText text,
+  final String author;
 
   @override
   String toString() {
-    return 'MessageEvent.sent()';
+    return 'MessageEvent.sent(author: $author)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Sent);
+    return identical(this, other) ||
+        (other is _Sent &&
+            (identical(other.author, author) ||
+                const DeepCollectionEquality().equals(other.author, author)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(author);
+
+  @JsonKey(ignore: true)
+  @override
+  _$SentCopyWith<_Sent> get copyWith =>
+      __$SentCopyWithImpl<_Sent>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult sent(),
+    @required TResult sent(String author),
     @required TResult textChanged(String text),
   }) {
     assert(sent != null);
     assert(textChanged != null);
-    return sent();
+    return sent(author);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult sent(),
+    TResult sent(String author),
     TResult textChanged(String text),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (sent != null) {
-      return sent();
+      return sent(author);
     }
     return orElse();
   }
@@ -157,7 +181,12 @@ class _$_Sent implements _Sent {
 }
 
 abstract class _Sent implements MessageEvent {
-  const factory _Sent() = _$_Sent;
+  const factory _Sent({@required String author}) = _$_Sent;
+
+// @required MessageText text,
+  String get author;
+  @JsonKey(ignore: true)
+  _$SentCopyWith<_Sent> get copyWith;
 }
 
 /// @nodoc
@@ -220,7 +249,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult sent(),
+    @required TResult sent(String author),
     @required TResult textChanged(String text),
   }) {
     assert(sent != null);
@@ -231,7 +260,7 @@ class _$_TextChanged implements _TextChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult sent(),
+    TResult sent(String author),
     TResult textChanged(String text),
     @required TResult orElse(),
   }) {
@@ -282,15 +311,15 @@ class _$MessageStateTearOff {
 
 // ignore: unused_element
   _MessageState call(
-      {@required Message message,
+      {@required MessageText text,
       @required bool showErrorMessage,
-      @required bool isEditing,
-      @required bool isSending}) {
+      @required bool isSending,
+      @required MessageFailure failure}) {
     return _MessageState(
-      message: message,
+      text: text,
       showErrorMessage: showErrorMessage,
-      isEditing: isEditing,
       isSending: isSending,
+      failure: failure,
     );
   }
 }
@@ -301,10 +330,10 @@ const $MessageState = _$MessageStateTearOff();
 
 /// @nodoc
 mixin _$MessageState {
-  Message get message;
+  MessageText get text;
   bool get showErrorMessage;
-  bool get isEditing;
   bool get isSending;
+  MessageFailure get failure;
 
   @JsonKey(ignore: true)
   $MessageStateCopyWith<MessageState> get copyWith;
@@ -316,9 +345,12 @@ abstract class $MessageStateCopyWith<$Res> {
           MessageState value, $Res Function(MessageState) then) =
       _$MessageStateCopyWithImpl<$Res>;
   $Res call(
-      {Message message, bool showErrorMessage, bool isEditing, bool isSending});
+      {MessageText text,
+      bool showErrorMessage,
+      bool isSending,
+      MessageFailure failure});
 
-  $MessageCopyWith<$Res> get message;
+  $MessageFailureCopyWith<$Res> get failure;
 }
 
 /// @nodoc
@@ -331,28 +363,28 @@ class _$MessageStateCopyWithImpl<$Res> implements $MessageStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object message = freezed,
+    Object text = freezed,
     Object showErrorMessage = freezed,
-    Object isEditing = freezed,
     Object isSending = freezed,
+    Object failure = freezed,
   }) {
     return _then(_value.copyWith(
-      message: message == freezed ? _value.message : message as Message,
+      text: text == freezed ? _value.text : text as MessageText,
       showErrorMessage: showErrorMessage == freezed
           ? _value.showErrorMessage
           : showErrorMessage as bool,
-      isEditing: isEditing == freezed ? _value.isEditing : isEditing as bool,
       isSending: isSending == freezed ? _value.isSending : isSending as bool,
+      failure: failure == freezed ? _value.failure : failure as MessageFailure,
     ));
   }
 
   @override
-  $MessageCopyWith<$Res> get message {
-    if (_value.message == null) {
+  $MessageFailureCopyWith<$Res> get failure {
+    if (_value.failure == null) {
       return null;
     }
-    return $MessageCopyWith<$Res>(_value.message, (value) {
-      return _then(_value.copyWith(message: value));
+    return $MessageFailureCopyWith<$Res>(_value.failure, (value) {
+      return _then(_value.copyWith(failure: value));
     });
   }
 }
@@ -365,10 +397,13 @@ abstract class _$MessageStateCopyWith<$Res>
       __$MessageStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Message message, bool showErrorMessage, bool isEditing, bool isSending});
+      {MessageText text,
+      bool showErrorMessage,
+      bool isSending,
+      MessageFailure failure});
 
   @override
-  $MessageCopyWith<$Res> get message;
+  $MessageFailureCopyWith<$Res> get failure;
 }
 
 /// @nodoc
@@ -383,18 +418,18 @@ class __$MessageStateCopyWithImpl<$Res> extends _$MessageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object message = freezed,
+    Object text = freezed,
     Object showErrorMessage = freezed,
-    Object isEditing = freezed,
     Object isSending = freezed,
+    Object failure = freezed,
   }) {
     return _then(_MessageState(
-      message: message == freezed ? _value.message : message as Message,
+      text: text == freezed ? _value.text : text as MessageText,
       showErrorMessage: showErrorMessage == freezed
           ? _value.showErrorMessage
           : showErrorMessage as bool,
-      isEditing: isEditing == freezed ? _value.isEditing : isEditing as bool,
       isSending: isSending == freezed ? _value.isSending : isSending as bool,
+      failure: failure == freezed ? _value.failure : failure as MessageFailure,
     ));
   }
 }
@@ -402,54 +437,52 @@ class __$MessageStateCopyWithImpl<$Res> extends _$MessageStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_MessageState implements _MessageState {
   const _$_MessageState(
-      {@required this.message,
+      {@required this.text,
       @required this.showErrorMessage,
-      @required this.isEditing,
-      @required this.isSending})
-      : assert(message != null),
+      @required this.isSending,
+      @required this.failure})
+      : assert(text != null),
         assert(showErrorMessage != null),
-        assert(isEditing != null),
-        assert(isSending != null);
+        assert(isSending != null),
+        assert(failure != null);
 
   @override
-  final Message message;
+  final MessageText text;
   @override
   final bool showErrorMessage;
   @override
-  final bool isEditing;
-  @override
   final bool isSending;
+  @override
+  final MessageFailure failure;
 
   @override
   String toString() {
-    return 'MessageState(message: $message, showErrorMessage: $showErrorMessage, isEditing: $isEditing, isSending: $isSending)';
+    return 'MessageState(text: $text, showErrorMessage: $showErrorMessage, isSending: $isSending, failure: $failure)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _MessageState &&
-            (identical(other.message, message) ||
-                const DeepCollectionEquality()
-                    .equals(other.message, message)) &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)) &&
             (identical(other.showErrorMessage, showErrorMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.showErrorMessage, showErrorMessage)) &&
-            (identical(other.isEditing, isEditing) ||
-                const DeepCollectionEquality()
-                    .equals(other.isEditing, isEditing)) &&
             (identical(other.isSending, isSending) ||
                 const DeepCollectionEquality()
-                    .equals(other.isSending, isSending)));
+                    .equals(other.isSending, isSending)) &&
+            (identical(other.failure, failure) ||
+                const DeepCollectionEquality().equals(other.failure, failure)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(message) ^
+      const DeepCollectionEquality().hash(text) ^
       const DeepCollectionEquality().hash(showErrorMessage) ^
-      const DeepCollectionEquality().hash(isEditing) ^
-      const DeepCollectionEquality().hash(isSending);
+      const DeepCollectionEquality().hash(isSending) ^
+      const DeepCollectionEquality().hash(failure);
 
   @JsonKey(ignore: true)
   @override
@@ -459,19 +492,19 @@ class _$_MessageState implements _MessageState {
 
 abstract class _MessageState implements MessageState {
   const factory _MessageState(
-      {@required Message message,
+      {@required MessageText text,
       @required bool showErrorMessage,
-      @required bool isEditing,
-      @required bool isSending}) = _$_MessageState;
+      @required bool isSending,
+      @required MessageFailure failure}) = _$_MessageState;
 
   @override
-  Message get message;
+  MessageText get text;
   @override
   bool get showErrorMessage;
   @override
-  bool get isEditing;
-  @override
   bool get isSending;
+  @override
+  MessageFailure get failure;
   @override
   @JsonKey(ignore: true)
   _$MessageStateCopyWith<_MessageState> get copyWith;
