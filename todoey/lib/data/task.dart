@@ -1,6 +1,10 @@
 class Task {
   final String name;
-  final bool done;
+  bool _done = false;
 
-  Task({required this.name, required this.done});
+  Task({required this.name});
+
+  bool get done => _done;
+
+  set done(bool? isDone) => _done = isDone ?? false;
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey/data/task.dart';
+import 'package:todoey/data/tasks_list_api.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;
@@ -21,7 +23,9 @@ class TaskTile extends StatelessWidget {
         ),
       ),
       value: task.done,
-      onChanged: (_) {},
+      onChanged: (isDone) {
+        context.read<TasksListApi>().updateTask(task, done: isDone);
+      },
     );
   }
 }
