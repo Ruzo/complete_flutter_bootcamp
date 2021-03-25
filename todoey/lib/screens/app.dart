@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
-          backgroundColor: Color(0xFF63C9FE),
+          backgroundColor: const Color(0xFF63C9FE),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -20,17 +20,17 @@ class App extends StatelessWidget {
           ),
           floatingActionButton: Builder(
             builder: (context) => FloatingActionButton(
-              child: Icon(
-                Icons.add,
-                size: 40.0,
-              ),
               backgroundColor: kAccentColor,
               onPressed: () => showModalBottomSheet<void>(
                 context: context,
-                backgroundColor: Color(0x00FFFFFF),
+                backgroundColor: const Color(0x00FFFFFF),
                 isScrollControlled: true,
                 isDismissible: true,
                 builder: (context) => AddTaskPanel(),
+              ),
+              child: const Icon(
+                Icons.add,
+                size: 40.0,
               ),
             ),
           ),

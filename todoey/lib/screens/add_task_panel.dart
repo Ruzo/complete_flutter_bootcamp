@@ -9,18 +9,18 @@ class AddTaskPanel extends StatelessWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
-        padding: EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
+            const Center(
               child: Text(
                 'Add Task',
                 style: TextStyle(
@@ -31,28 +31,28 @@ class AddTaskPanel extends StatelessWidget {
             ),
             TextField(
               controller: textFieldController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 focusColor: kAccentColor,
                 hoverColor: kAccentColor,
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black87,
               ),
               cursorColor: kAccentColor,
               textCapitalization: TextCapitalization.sentences,
               autofocus: true,
             ),
-            Padding(padding: EdgeInsets.all(10)),
+            const Padding(padding: EdgeInsets.all(10)),
             TextButton(
               onPressed: () {
-                print(textFieldController.text);
+                // print(textFieldController.text);
               },
-              child: Text(
-                'Add',
-                style: TextStyle(color: Colors.white),
-              ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) => kAccentColor),
+              ),
+              child: const Text(
+                'Add',
+                style: TextStyle(color: Colors.white),
               ),
             )
           ],

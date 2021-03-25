@@ -5,8 +5,8 @@ class TaskTile extends StatelessWidget {
   final Task task;
 
   const TaskTile({
-    Key key,
-    @required this.task,
+    Key? key,
+    required this.task,
   }) : super(key: key);
 
   @override

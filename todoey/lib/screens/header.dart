@@ -4,40 +4,37 @@ import 'package:todoey/constants.dart';
 class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(40.0, 50.0, 0.0, 40.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 35.0,
-              child: Icon(
-                Icons.list_rounded,
-                color: kAccentColor,
-                size: 50.0,
-              ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40.0, 50.0, 0.0, 40.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 35.0,
+            child: Icon(
+              Icons.list_rounded,
+              color: kAccentColor,
+              size: 50.0,
             ),
-            Padding(padding: const EdgeInsets.all(14.0)),
-            Text(
-              'Todoey',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 50.0,
-              ),
+          ),
+          Padding(padding: EdgeInsets.all(14.0)),
+          Text(
+            'Todoey',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+              fontSize: 50.0,
             ),
-            Text(
-              '12 Tasks',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
+          ),
+          Text(
+            '12 Tasks',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

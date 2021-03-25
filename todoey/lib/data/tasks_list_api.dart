@@ -1,5 +1,9 @@
 import 'package:todoey/data/task.dart';
 
 class TasksListApi {
-  List<Task> tasksList = [Task('Buy milk', false), Task('Buy eggs', false), Task('Buy bread', true)];
+  List<Task> tasksList = [
+    Task(name: 'Buy milk', done: false),
+    Task(name: 'Buy eggs', done: false),
+    Task(name: 'Buy bread', done: true)
+  ];
 }

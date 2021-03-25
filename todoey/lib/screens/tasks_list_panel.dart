@@ -6,14 +6,14 @@ class TasksListPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
-        padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
         child: TaskTilesList(),
       ),
     );
