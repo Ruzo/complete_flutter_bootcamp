@@ -15,4 +15,9 @@ class TasksListApi extends ChangeNotifier {
     _tasksList.add(task);
     notifyListeners();
   }
+
+  void deleteTask(Task task) {
+    _tasksList.remove(task);
+    notifyListeners();
+  }
 }
